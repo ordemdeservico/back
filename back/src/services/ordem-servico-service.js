@@ -198,7 +198,9 @@ module.exports = {
             LEFT JOIN setor_principal ON ordem_servico.setor_principal_id = setor_principal.id
             LEFT JOIN setor_secundario ON ordem_servico.setor_secundario_id = setor_secundario.id
             LEFT JOIN tipo_servico ON ordem_servico.tipo_servico_id = tipo_servico.id
+            WHERE ordem_servico.id = ?
             ORDER BY ordem_servico.id DESC
+            
         `,
             [id],
             (err, result) => {

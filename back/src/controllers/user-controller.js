@@ -31,7 +31,6 @@ module.exports =  {
         if (tecnico) {
             json.result = tecnico
             json.quantidade_Tec = tecnico.length;
-
         }
         res.json(json);
     },

@@ -3,6 +3,8 @@ const router = express.Router();
 const ordemServicoController = require('../controllers/ordem-servico-controller');
 const login = require('../middleware/login');
 const roles = require('../middleware/roles');
+const multer = require('multer');
+const upload = multer();
 
 router.get('/', login.verifyToken, roles.adminRole, ordemServicoController.ordemServicoGetAll);
 
@@ -20,13 +22,13 @@ router.get('/filtro/status', login.verifyToken, roles.adminRole, ordemServicoCon
 
 router.get('/filtro/instituicao', login.verifyToken, roles.adminRole, ordemServicoController.ordemServicoGetByInstituicao);
 
-router.post('/solicitar', login.verifyToken, roles.solicitanteRole, ordemServicoController.solicitarOrdemServico);
+router.post('/solicitar', login.verifyToken, roles.solicitanteRole, upload.array('file', 5), ordemServicoController.solicitarOrdemServico);
 
 router.patch('/aprovar', login.verifyToken, roles.adminRole, ordemServicoController.aprovarOrdemServico);
 
 router.delete('/rejeitar', login.verifyToken, roles.adminRole, ordemServicoController.rejeitarOrdemServico);
 
-router.patch('/concluir', login.verifyToken, roles.tecnicoRole, ordemServicoController.concluirOrdemServico);
+router.patch('/concluir', login.verifyToken, roles.tecnicoRole, upload.array('file', 5), ordemServicoController.concluirOrdemServico);
 
 router.patch('/finalizar', login.verifyToken, roles.adminRole, ordemServicoController.finalizarOrdemServico);
 
