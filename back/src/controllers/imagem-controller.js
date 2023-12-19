@@ -1,39 +1,54 @@
 const imagemService = require('../services/imagem-service');
 
-module.exports = {
-    getAllImagens: async (req, res) => {
-        let json = {
-            error: '',
-            result: []
-        };
 
-        let imagens = await imagemService.getAllImagens();
+exports.getImagem = async (req, res) => {
+    const img_key = req.params.img_key;
 
-        if (imagens) {
-            json.result = imagens;
-        }
-        res.json(json);
-    },
-    addImagem: async (req, res) => {
-        let json = {
-            error: '',
-            result: []
-        };
-    
-        let link = req.file.path
-        let nome = req.file.originalname
-        let tipo = req.file.mimetype
-        let data_postagem = req.body.data_postagem
-        let ordem_servico_id = req.body.ordem_servico_id
-    
-        try {
-            await imagemService.addImage(link, nome, tipo, data_postagem, ordem_servico_id);
-            json.result = {
-                message: "Imagem adicionada com sucesso!"
-            }
-        } catch (error) {
-            console.log(error)
-        }
-        res.json(json)
+    try {
+        const url = await imagemService.getImagem(img_key);
+        res.json(url);
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
     }
 }
+
+exports.uploadImagem = async (req, res) => {
+    const files = req.files || [];
+
+    const { os_id, img_type } = req.body;
+
+    try {
+        const response = await imagemService.uploadImagem(files, os_id, img_type);
+        res.json(response);
+    } catch (error) {
+        res.status(500).json({ error: error.toString() });
+    }
+};
+
+exports.findAll = async (req, res) => {
+    try {
+        const images = await imagemService.findAllImages();
+        return res.status(200).send(images);
+    } catch (error) {
+        return res.status(500).send({ error: 'Erro ao buscar as imagens no banco de dados', message: error.message });
+    }
+};
+
+exports.findById = async (req, res) => {
+    try {
+        const image = await imagemService.findImageById(req.params.id);
+        return res.status(200).send(image);
+    } catch (error) {
+        return res.status(500).send({ error: 'Erro ao buscar a imagem no banco de dados', message: error.message });
+    }
+};
+
+exports.findByOsId = async (req, res) => {
+    try {
+        const images = await imagemService.findImageByOsId(req.params.os_id);
+        return res.status(200).send(images);
+    } catch (error) {
+        return res.status(500).send({ error: 'Erro ao buscar as imagens no banco de dados', message: error.message });
+    }
+};
+

@@ -1,32 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const imagemController = require('../controllers/imagem-controller');
-const login = require('../middleware/login');
-const roles = require('../middleware/roles');
 const multer = require('multer');
+const imagemController = require('../controllers/imagem-controller');
+const upload = multer();
 
-const path = require('path');
+router.get('/all', imagemController.findAll);
 
-const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-		uploadDir = path.resolve(__dirname, '../../uploads');
-        cb(null, uploadDir);
-    },
-    filename: function(req, file, cb) {
-        let data = new Date().toISOString().replace(/:/g, '-') + '-';
-        cb(null, data + file.originalname)
-    }
-});
+router.get('/get/:img_key', imagemController.getImagem);
 
-const upload = multer({
-    storage: storage,
-    limits: {
-    	fileSize: 1024 * 1024 * 5
-    }
-});
+router.get('/find/:id', imagemController.findById);
 
-router.get('/', login.verifyToken, imagemController.getAllImagens);
+router.get('/find/os/:os_id', imagemController.findByOsId);
 
-router.post('/post', login.verifyToken, upload.single('imagem'), imagemController.addImagem);
+router.post('/upload', upload.array('file', 5), imagemController.uploadImagem);
 
 module.exports = router;
