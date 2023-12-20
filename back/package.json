@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/credential-providers": "^3.477.0",
     "@aws-sdk/lib-storage": "^3.474.0",
+    "@aws-sdk/s3-request-presigner": "^3.477.0",
     "aws-sdk": "^2.1519.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",

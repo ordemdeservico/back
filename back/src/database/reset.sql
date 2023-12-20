@@ -38,14 +38,12 @@ CREATE TABLE IF NOT EXISTS ordem_servico (
     FOREIGN KEY (tecnico_id) REFERENCES usuario(id)
 );
 
-CREATE TABLE IF NOT EXISTS imagens (
+CREATE TABLE IF NOT EXISTS os_img (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    link VARCHAR(2000),
-    nome VARCHAR(255),
-    tipo VARCHAR(20),
-    data_postagem DATE,
-    ordem_servico_id INT,
-    FOREIGN KEY (ordem_servico_id) REFERENCES ordem_servico(id)
+    os_id INT,
+    img_key VARCHAR(255),
+    img_type ENUM('1','2'),
+    FOREIGN KEY (os_id) REFERENCES ordem_servico(id)
 );
 
 CREATE TABLE IF NOT EXISTS tipo_servico (
