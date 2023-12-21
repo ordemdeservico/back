@@ -272,25 +272,26 @@ module.exports = {
     res.json(json);
   },
 
-  rejeitarOrdemServico: (req, res) => {
-    let json = {
-      error: "",
-      result: [],
-    };
-
-    let ordem_servico_id = req.query.ordem_servico_id;
-
-    try {
-      ordemServicoService.rejeitarOrdemServico(ordem_servico_id);
-      json.result = {
-        message: "Ordem de Serviço rejeitada com sucesso!",
-        ordem_servico_id: ordem_servico_id,
+  rejeitarOrdemServico: async (req, res) => {
+      let json = {
+        error: "",
+        result: [],
       };
-    } catch (error) {
-      console.log(error);
-    }
-    res.json(json);
-  },
+
+      let {os_id} = req.params;
+      let status_os = "Rejeitada";
+      try {
+        await ordemServicoService.rejeitarOrdemServico(status_os, os_id);
+        json.result = {
+          message: "Ordem de Serviço rejeitada com sucesso!",
+          os_id: os_id,
+        };
+      } catch (error) {
+        console.log(error);
+        json.error = "Erro ao rejeitar a ordem de serviço";
+      }
+      res.json(json);
+    },
   concluirOrdemServico: async (req, res) => {
     let json = {
       error: "",
@@ -404,4 +405,17 @@ module.exports = {
     }
     res.json(json);
   },
+  quantidadeByStatus : async (req, res) => {
+    let json = {
+    };
+
+    try {
+      const quantidade = await ordemServicoService.quantidadeByStatus();
+      json.result = quantidade;
+    } catch (error) {
+      console.log(error);
+    }
+    res.json(json);
+  }
+
 };

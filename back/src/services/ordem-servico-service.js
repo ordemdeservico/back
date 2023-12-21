@@ -356,16 +356,17 @@ module.exports = {
     },
     
     
-    rejeitarOrdemServico: (ordem_servico_id) => {
+    rejeitarOrdemServico: (status_os, os_id) => {
+        console.log(status_os, os_id);
         return new Promise((resolve, reject) => {
-            mysql.query('DELETE FROM ordem_servico WHERE id = ?',
-            [ordem_servico_id],
+            mysql.query('UPDATE ordem_servico SET status_os = ? WHERE id = ?',
+            [status_os, os_id],
             (err, result) => {
                 if (err) return reject(err);
                 resolve(result);
             });
         });
-    },
+    },    
     concluirOrdemServico: (ordem_servico_id, data_final, material, relatorio, status_os) => {
         return new Promise((resolve, reject) => {
             mysql.query('UPDATE ordem_servico SET data_final = ?, material = ?, relatorio = ?, status_os = ? WHERE id = ?',
@@ -385,5 +386,38 @@ module.exports = {
                 resolve(result);
             });
         });
+    },
+    quantidadeByStatus: () => {
+        return new Promise((resolve, reject) => {
+            mysql.query(`
+                SELECT
+                COUNT(*) AS quantidade,
+                status_os
+                FROM ordem_servico
+                GROUP BY status_os
+            `, (err, results) => {
+                if (err) return reject(err);
+                
+                let statusCounts = {
+                    'Solicitada': 0,
+                    'Aprovada': 0,
+                    'Concluida': 0,
+                    'Finalizada': 0,
+                    'Rejeitada': 0,
+                    'total': 0
+                };
+    
+                for (let result of results) {
+                    statusCounts[result.status_os] = result.quantidade;
+                    statusCounts.total += result.quantidade;
+                }
+    
+               
+                statusCounts.total -= statusCounts['Rejeitada'];
+    
+                resolve(statusCounts);
+            });
+        }
+        );
     }
-}
+};

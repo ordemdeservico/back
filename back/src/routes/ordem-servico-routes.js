@@ -22,11 +22,13 @@ router.get('/filtro/status', login.verifyToken, roles.adminRole, ordemServicoCon
 
 router.get('/filtro/instituicao', login.verifyToken, roles.adminRole, ordemServicoController.ordemServicoGetByInstituicao);
 
+router.get('/quantidade/os', login.verifyToken, roles.adminRole, ordemServicoController.quantidadeByStatus);
+
 router.post('/solicitar', login.verifyToken, roles.solicitanteRole, upload.array('file', 5), ordemServicoController.solicitarOrdemServico);
 
 router.patch('/aprovar', login.verifyToken, roles.adminRole, ordemServicoController.aprovarOrdemServico);
 
-router.delete('/rejeitar', login.verifyToken, roles.adminRole, ordemServicoController.rejeitarOrdemServico);
+router.patch('/rejeitar/:os_id', login.verifyToken, roles.adminRole, ordemServicoController.rejeitarOrdemServico);
 
 router.patch('/concluir', login.verifyToken, roles.tecnicoRole, upload.array('file', 5), ordemServicoController.concluirOrdemServico);
 
