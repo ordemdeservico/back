@@ -167,7 +167,7 @@ async function getImagem(img_key) {
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Key: img_key,
-    Expires: 3600, // Tempo em segundos para a URL expirar
+    Expires: 3600, 
   };
 
   try {
@@ -232,78 +232,6 @@ exports.uploadImagem = async (files, os_id, img_type) => {
     throw error;
   }
 };
-
-// const Minio = require("minio");
-// const { v4: uuidv4 } = require("uuid");
-// const mysql = require("../database/mysql");
-// const path = require("path");
-// dotenv = require("dotenv");
-// dotenv.config();
-
-// const s3 = new Minio.Client({
-//   endPoint: "localhost",
-//   port: 2020,
-//   useSSL: false,
-//   accessKey: process.env.ACCESS_KEY,
-//   secretKey: process.env.SECRET_KEY,
-// });
-
-// const mimeTypes = {
-//   ".jpg": "image/jpeg",
-//   ".jpeg": "image/jpeg",
-//   ".png": "image/png",
-//   ".gif": "image/gif",
-//   ".bmp": "image/bmp",
-//   ".webp": "image/webp",
-// };
-
-// async function uploadToS3(file, filename, metaData) {
-//   return new Promise((resolve, reject) => {
-//     s3.putObject(
-//       process.env.BUCKET_NAME,
-//       filename,
-//       file.buffer,
-//       metaData,
-//       function (err, res) {
-//         if (err) {
-//           reject(err);
-//         } else {
-//           resolve(res);
-//         }
-//       }
-//     );
-//   });
-// }
-
-// async function insertDatabase(os_id, filename, img_type) {
-//   const query =
-//     "INSERT INTO os_img (os_id, img_key, img_type) VALUES (?, ?, ?)";
-//   await mysql.execute(query, [os_id, filename, img_type]);
-// }
-
-// exports.uploadImagem = async (files, os_id, img_type) => {
-//   try {
-//     const uploadPromises = files.map(async (file) => {
-//       const ext = path.extname(file.originalname).toLowerCase();
-//       const filename = `${uuidv4()}${ext}`;
-
-//       const metaData = {
-//         "Content-Type": mimeTypes[ext] || "application/octet-stream",
-//       };
-
-//       await uploadToS3(file, filename, metaData);
-//       await insertDatabase(os_id, filename, img_type);
-
-//       return { message: "Imagem enviada com sucesso!" };
-//     });
-
-//     const responses = await Promise.all(uploadPromises);
-//     return responses;
-//   } catch (error) {
-//     console.error(error);
-//     throw error;
-//   }
-// };
 
 exports.findAllImages = () => {
   return new Promise((resolve, reject) => {

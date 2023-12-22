@@ -118,9 +118,14 @@ module.exports = {
     );
 
     if (ordemServico) {
+      for (const os of ordemServico) {
+        const images = await imagemService.findImageByOsId(os.id);
+        os.images = images;
+      }
       json.result = ordemServico;
-    }
+
     res.json(json);
+    }
   },
   ordemServicoGetByPrioridade: async (req, res) => {
     let json = {
@@ -150,9 +155,14 @@ module.exports = {
     );
 
     if (ordemServico) {
+      for (const os of ordemServico) {
+        const images = await imagemService.findImageByOsId(os.id);
+        os.images = images;
+      }
       json.result = ordemServico;
-    }
+
     res.json(json);
+    }
   },
   ordemServicoGetByInstituicao: async (req, res) => {
     let json = {
@@ -166,9 +176,14 @@ module.exports = {
     );
 
     if (ordemServico) {
+      for (const os of ordemServico) {
+        const images = await imagemService.findImageByOsId(os.id);
+        os.images = images;
+      }
       json.result = ordemServico;
-    }
+
     res.json(json);
+    }
   },
   solicitarOrdemServico: async (req, res) => {
     let json = {
@@ -378,7 +393,7 @@ module.exports = {
     }
     res.json(json);
   },
-  
+
   finalizarOrdemServico: (req, res) => {
     let json = {
       error: "",
