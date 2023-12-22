@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS ordem_servico (
     descricao TEXT,
     setor_principal_id INT,
     setor_secundario_id INT,
-    status_os ENUM('Solicitada', 'Aprovada', "Concluida ", 'Finalizada'),
+    status_os ENUM('Solicitada', 'Aprovada', "Concluida ", 'Finalizada', 'Rejeitada'),
     nivel_prioridade ENUM('P1 - 1 dia', 'P2 - 2 dias', 'P3 - 4 dias', 'P4 - 7 dias', 'P5 - 10 dias', 'P6 - 15 dias', 'P7 - 25 dias'),
     servico_terceirizado BOOLEAN,
     tipo_servico_id INT,
