@@ -292,52 +292,6 @@ module.exports = {
       }
       res.json(json);
     },
-  concluirOrdemServico: async (req, res) => {
-    let json = {
-      error: "",
-      result: [],
-    };
-
-    let ordem_servico_id = req.body.ordem_servico_id;
-    let data_final = req.body.data_final;
-    let material = req.body.material;
-    let relatorio = req.body.relatorio;
-    let status_os = "Concluída";
-
-    const files = req.files || [];
-    const img_type = 2;
-    const os_id = ordem_servico_id;
-
-    if (files.length === 0) {
-      json.error = "No files uploaded";
-      res.json(json);
-      return;
-    }
-
-    try {
-      ordemServicoService.concluirOrdemServico(
-        ordem_servico_id,
-        data_final,
-        material,
-        relatorio,
-        status_os
-      );
-      
-      const response = await imagemService.uploadImagem(files, os_id, img_type);
-
-      json.result = {
-        message: "Ordem de Serviço concluída com sucesso!",
-        ordem_servico_id: ordem_servico_id,
-        data_final: data_final,
-        material: material,
-        status: status_os,
-        uploadResponse: response,
-      };
-    } catch (error) {
-      console.log(error);
-    }
-    res.json(json);
-  },
   // concluirOrdemServico: async (req, res) => {
   //   let json = {
   //     error: "",
@@ -353,6 +307,12 @@ module.exports = {
   //   const files = req.files || [];
   //   const img_type = 2;
   //   const os_id = ordem_servico_id;
+
+  //   if (files.length === 0) {
+  //     json.error = "No files uploaded";
+  //     res.json(json);
+  //     return;
+  //   }
 
   //   try {
   //     ordemServicoService.concluirOrdemServico(
@@ -378,6 +338,47 @@ module.exports = {
   //   }
   //   res.json(json);
   // },
+  concluirOrdemServico: async (req, res) => {
+    let json = {
+      error: "",
+      result: [],
+    };
+
+    let ordem_servico_id = req.body.ordem_servico_id;
+    let data_final = req.body.data_final;
+    let material = req.body.material;
+    let relatorio = req.body.relatorio;
+    let status_os = "Concluída";
+
+    const files = req.files || [];
+    const img_type = 2;
+    const os_id = ordem_servico_id;
+
+    try {
+      ordemServicoService.concluirOrdemServico(
+        ordem_servico_id,
+        data_final,
+        material,
+        relatorio,
+        status_os
+      );
+      
+      const response = await imagemService.uploadImagem(files, os_id, img_type);
+
+      json.result = {
+        message: "Ordem de Serviço concluída com sucesso!",
+        ordem_servico_id: ordem_servico_id,
+        data_final: data_final,
+        material: material,
+        status: status_os,
+        uploadResponse: response,
+      };
+    } catch (error) {
+      console.log(error);
+    }
+    res.json(json);
+  },
+  
   finalizarOrdemServico: (req, res) => {
     let json = {
       error: "",
