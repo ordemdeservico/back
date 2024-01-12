@@ -299,18 +299,17 @@ module.exports =  {
             result: []
         };
 
-        let nome = req.query.nome;
+        let id = req.params.id;
 
         try {
-            await userService.userDelete(nome);
+            await userService.userDelete(id);
             json.result = {
                 message: 'Usuário removido com sucesso!',
-                user_nome: nome,
             }
         } catch (error) {
             console.error(error);
             return res.status(401).send({
-                message: `Não foi possível deletar ${nome}! Está vinculado a uma OS!.`
+                message: `Não foi possível deletar o usuario!`
             });
         }
         res.json(json);

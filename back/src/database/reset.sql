@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS synapse_os;
+CREATE DATABASE IF NOT EXISTS synapse_os_v2;
 
-USE synapse_os;
+USE synapse_os_v2;
 
 CREATE TABLE IF NOT EXISTS usuario (
     id INT AUTO_INCREMENT PRIMARY KEY,

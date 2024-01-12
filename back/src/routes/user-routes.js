@@ -20,6 +20,6 @@ router.patch('/password/:id', login.verifyToken, roles.solicitanteRole, userCont
 
 router.patch('/:id', login.verifyToken, roles.adminRole, userController.userUpdate);
 
-router.delete('/deletar', login.verifyToken, roles.adminRole, userController.userDelete);
+router.patch('/deletar/:id', login.verifyToken, roles.adminRole, userController.userDelete);
 
 module.exports = router;
