@@ -282,7 +282,7 @@ module.exports = {
             LEFT JOIN setor_secundario ON ordem_servico.setor_secundario_id = setor_secundario.id
             LEFT JOIN tipo_servico ON ordem_servico.tipo_servico_id = tipo_servico.id
             WHERE tecnico_id = ? AND status_os = "Aprovada"
-            ORDER BY ordem_servico.nivel_prioridade DESC, ordem_servico.id ASC
+            ORDER BY ordem_servico.nivel_prioridade ASC, ordem_servico.id ASC
         `,
             [tecnico_id],
             (err, result) => {
